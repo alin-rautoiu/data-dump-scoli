@@ -2,9 +2,12 @@ package datadump.accessingdatamongodb;
 
 import org.springframework.data.annotation.Id;
 
+import java.util.HashMap;
 import java.util.UUID;
 
-public class Judet {
+public class Judet //extends HashMap<String, Object>
+ {
+
     @Id
     public String nume;
 
