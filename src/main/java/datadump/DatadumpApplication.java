@@ -84,22 +84,22 @@ public class DatadumpApplication implements CommandLineRunner {
 			collection = mongoTemplate.getCollection("Judet");
 		}
 
-		List judete = readCSV();
-		for (Object item: judete) {
-			Document judet = new Document((Map<String, Object>) item);
-			Document query = new Document("judet", judet.getString("judet"));
-			//BSONObject q = new BasicBSONObject();
-			//q.put("judet", ((Map<String, Object>) item).get("judet"));
-
-			/*List results = new ArrayList<>();
-			collection.find(query).into(results);*/
-			Document oldValue =  (Document) collection.find(query).first();
-			if(oldValue != null){
-				collection.replaceOne(oldValue ,judet);
-			}else{
-				collection.insertOne(judet);
-			}
-		}
+//		List judete = readCSV();
+//		for (Object item: judete) {
+//			Document judet = new Document((Map<String, Object>) item);
+//			Document query = new Document("judet", judet.getString("judet"));
+//			//BSONObject q = new BasicBSONObject();
+//			//q.put("judet", ((Map<String, Object>) item).get("judet"));
+//
+//			/*List results = new ArrayList<>();
+//			collection.find(query).into(results);*/
+//			Document oldValue =  (Document) collection.find(query).first();
+//			if(oldValue != null){
+//				collection.replaceOne(oldValue ,judet);
+//			}else{
+//				collection.insertOne(judet);
+//			}
+//		}
 
 
 		/*List judete = new ArrayList<>();

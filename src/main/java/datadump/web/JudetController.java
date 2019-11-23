@@ -5,6 +5,7 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoCursor;
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -12,7 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.util.*;
 
@@ -27,62 +27,21 @@ public class JudetController {
         MongoCollection collection = null;
         collection = mongoTemplate.getCollection("Judet");
 
-        Map<String, Object> firstJudet = (Map<String, Object>) collection.find().first();
-        List headerList = new ArrayList<>();
-        Iterator it = firstJudet.entrySet().iterator();
-        it.next(); it.remove(); //sarim peste _id
-        while (it.hasNext()){
-            Map.Entry pair = (Map.Entry)it.next();
-            String val = (String) pair.getKey();
-            headerList.add(val);
-            it.remove();
+        List<Map<String, Object>> values = new LinkedList<>();
+
+        MongoCursor cursor = collection.find().cursor();
+        try {
+            while (cursor.hasNext()) {
+                values.add((Map<String, Object>) cursor.next());
+            }
+        }
+        finally {
+            cursor.close();
         }
 
-        List<String> judete = new ArrayList<>();
-        FindIterable<Document> iterable = collection.find();
-
-        iterable.forEach(new Block<Document>() {
-            @Override
-            public void apply(final Document document) {
-                Map<String, Object> item = (Map<String, Object>) document;
-                Iterator itr = item.entrySet().iterator();
-                itr.next(); itr.remove(); //sarim peste _id
-                while (itr.hasNext()){
-                    Map.Entry pair = (Map.Entry)itr.next();
-                    String val = (String) pair.getValue();
-                    judete.add(val);
-                    itr.remove();
-                }
-            }
-        });
-        /*DBCursor cursor = collection.find();
-        while (cursor.hasNext()) {
-            DBObject obj = cursor.next();
-            judete.add((Map<String, Object>) obj);
-        }*/
-        //judete = (ArrayList<Map<String, Object>>) collection.find();
-
-        //List<DBObject> all = collection.find().toArray();
-        model.addAttribute("headerList", headerList);
-        model.addAttribute("valuesList", judete);
-        model.addAttribute("nrHeaderValues", headerList.size());
+        model.addAttribute("headerList", values.get(0).keySet().toArray());
+        model.addAttribute("valuesList", values);
 
         return "displayJudete";
     }
 }
-
-/*for (Object judet: judete) {
-
-            Document query = new Document("judet", judet.getString("judet"));
-            //BSONObject q = new BasicBSONObject();
-            //q.put("judet", ((Map<String, Object>) item).get("judet"));
-
-			//List results = new ArrayList<>();
-			//collection.find(query).into(results);
-            Document oldValue =  (Document) collection.find(query).first();
-            if(oldValue != null){
-                collection.replaceOne(oldValue ,judet);
-            }else{
-                collection.insertOne(judet);
-            }
-        }*/

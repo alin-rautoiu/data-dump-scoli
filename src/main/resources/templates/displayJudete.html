@@ -17,8 +17,8 @@
         </tr>
     </thead>
     <tbody>
-        <tr th:each="value : ${valuesList}">
-            <td th:text="${value}"></td>
+        <tr th:each="map : ${valuesList}">
+            <td th:each="mapEntry : ${map}"><span th:text="${mapEntry.value}"></span></td>
         </tr>
     </tbody>
 </table>
