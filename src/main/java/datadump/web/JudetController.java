@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import services.JudetService;
 
 import java.util.*;
 
@@ -30,15 +31,7 @@ public class JudetController {
 
         List<Map<String, Object>> values = new LinkedList<>();
 
-        MongoCursor cursor = collection.find().projection(Projections.excludeId()).cursor();
-        try {
-            while (cursor.hasNext()) {
-                values.add((Map<String, Object>) cursor.next());
-            }
-        }
-        finally {
-            cursor.close();
-        }
+        values = JudetService.getAll(collection);
 
         model.addAttribute("headerList", values.get(0).keySet().toArray());
         model.addAttribute("valuesList", values);
