@@ -1,6 +1,7 @@
 package datadump.web;
 
 import com.mongodb.client.MongoCollection;
+import datadump.services.JudetServiceImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Controller;
@@ -16,6 +17,9 @@ public class JudetController {
     @Autowired
     private MongoTemplate mongoTemplate;
 
+    @Autowired
+    private JudetService judetService;
+
     @RequestMapping(value = "/Judete", method = RequestMethod.GET)
     public String Index(Model model){
 
@@ -24,7 +28,7 @@ public class JudetController {
 
         List<Map<String, Object>> values = new LinkedList<>();
 
-        values = JudetService.getAll(collection);
+        values = judetService.getAll(collection);
 
         model.addAttribute("headerList", values.get(0).keySet().toArray());
         model.addAttribute("valuesList", values);

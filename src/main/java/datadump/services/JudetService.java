@@ -8,20 +8,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public class JudetService {
-    public static List<Map<String, Object>> getAll(MongoCollection collection){
-        List<Map<String, Object>> values = new LinkedList<>();
-
-        MongoCursor cursor = collection.find().projection(Projections.excludeId()).cursor();
-        try {
-            while (cursor.hasNext()) {
-                values.add((Map<String, Object>) cursor.next());
-            }
-        }
-        finally {
-            cursor.close();
-        }
-
-        return values;
-    }
+public interface JudetService {
+      List<Map<String, Object>> getAll(MongoCollection collection);
 }

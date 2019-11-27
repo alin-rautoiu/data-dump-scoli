@@ -14,12 +14,8 @@ public class JavaCreateDirectory {
 
         if (!Files.exists(path)) {
             Files.createDirectory(path);
-            System.out.println("Directory created!");
-
-        } else {
-            System.out.println("Directory already exists");
         }
-        System.out.println(fileName);
+
         return fileName;
     }
 }
