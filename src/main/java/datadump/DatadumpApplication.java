@@ -1,18 +1,18 @@
 package datadump;
 
 import com.mongodb.client.MongoCollection;
-import datadump.accessingdatamongodb.Judet;
 import datadump.accessingdatamongodb.JudetRepository;
 import datadump.accessingdatamongodb.TestCollection;
 import datadump.accessingdatamongodb.TestCollectionRepository;
-import org.bson.BSONObject;
-import org.bson.BasicBSONObject;
-import org.bson.Document;
+import datadump.common.StorageProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import datadump.services.StorageService;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -22,6 +22,7 @@ import java.util.*;
 import static com.mongodb.client.model.Filters.exists;
 
 @SpringBootApplication
+@EnableConfigurationProperties(StorageProperties.class)
 public class DatadumpApplication implements CommandLineRunner {
 
 	@Autowired
@@ -36,6 +37,14 @@ public class DatadumpApplication implements CommandLineRunner {
 	public static void main(String[] args) {
 		SpringApplication.run(DatadumpApplication.class, args);
 	}
+
+//	@Bean
+//	CommandLineRunner init(StorageService storageService) {
+//		return (args) -> {
+//			storageService.deleteAll();
+//			storageService.init();
+//		};
+//	}
 
 	public static List readCSV() throws FileNotFoundException, IOException {
 
