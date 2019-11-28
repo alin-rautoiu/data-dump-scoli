@@ -8,19 +8,25 @@
     <title>Title</title>
 </head>
 <body>
-<table>
-    <thead>
-        <tr>
-            <th th:each="headerItem : ${headerList}">
-                <span th:text="${headerItem}"></span>
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr th:each="map : ${valuesList}">
-            <td th:each="mapEntry : ${map}"><span th:text="${mapEntry.value}"></span></td>
-        </tr>
-    </tbody>
-</table>
+    <div th:if="${message}">
+      <h2 th:text="${message}"/>
+    </div>
+    <table>
+        <thead>
+             <tr>
+                <th th:each="headerItem : ${headerList}">
+                     <span th:text="${headerItem}"></span>
+                 </th>
+             </tr>
+         </thead>
+        <tbody>
+            <tr th:each="map : ${valuesList}">
+               <td th:each="mapEntry : ${map}"><span th:text="${mapEntry.value}"></span></td>
+            </tr>
+        </tbody>
+    </table>
+    <div>
+        <a href="/uploads">Modifica datele</a>
+    </div>
 </body>
 </html>

@@ -74,9 +74,6 @@ public class DatadumpApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws  Exception{
-//		repository.save(new TestCollection("a"));
-//		repository.save(new TestCollection("b"));
-//		repository.save(new TestCollection("c"));
 
 		System.out.println(repository.findTestCollectionByData("b"));
 //		System.out.println(repository.findById("5dd0652fdc9af440fdb3bc2c"));
@@ -110,27 +107,6 @@ public class DatadumpApplication implements CommandLineRunner {
 //			}
 //		}
 
-
-		/*List judete = new ArrayList<>();
-		BufferedReader br = new BufferedReader(new FileReader("exemplu_harta.csv"));
-		String line = br.readLine(); // Reading header, Ignoring
-		while ((line = br.readLine()) != null && !line.isEmpty()) {
-			String[] fields = line.split(",");
-			String nume = fields[0];
-			int unitati_inv = Integer.parseInt(fields[1]);
-			int cu_pers_juridica = Integer.parseInt(fields[2]);
-			int arondate = Integer.parseInt(fields[3]);
-			int particulare = Integer.parseInt(fields[4]);
-			int publice = Integer.parseInt(fields[5]);
-			Judet judet = new Judet(nume, unitati_inv, cu_pers_juridica, arondate, particulare, publice);
-			judete.add(judet);
-		}
-		br.close();
-
-		return judete;*/
-
-		//repositoryJudet.save(new Judet("ALBA", 516, 144, 372, 16, 500));
-		//repositoryJudet.save(new Judet("ALBA", 516, 144, 372, 16, 500));
 //		System.out.println(mongoTemplate.findAll(TestCollection.class));
 	}
 

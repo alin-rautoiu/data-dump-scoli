@@ -16,7 +16,6 @@ import datadump.services.StorageService;
 import java.io.IOException;
 import java.util.stream.Collectors;
 
-
 @Controller
 public class FileUploadController {
     private final StorageService storageService;
@@ -50,18 +49,21 @@ public class FileUploadController {
     @PostMapping("/uploads")
     public String handleFileUpload(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes){
         if(!file.isEmpty()){
+            storageService.deleteOldFiles(storageService.getCurrentDir());
             storageService.store(file);
             redirectAttributes.addFlashAttribute("message", "Ai incarcat cu succes " + file.getOriginalFilename() + " !");
+            return "redirect:/Judete/Show";
         }
         else {
            redirectAttributes.addFlashAttribute("message", "Nu ati atasat niciun fisier!");
+           return "redirect:/uploads";
         }
 
-        return "redirect:/uploads";
     }
 
     @ExceptionHandler(StorageFileNotFoundException.class)
     public ResponseEntity<?> handleStorageFileNotFound(StorageFileNotFoundException exc){
         return ResponseEntity.notFound().build();
     }
+
 }

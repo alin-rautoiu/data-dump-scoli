@@ -11,6 +11,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.util.StringUtils;
 
 import org.springframework.core.io.Resource;
+
+import java.io.File;
+import java.io.FileFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -88,5 +91,53 @@ public class FileSystemStorageService implements StorageService {
     @Override
     public void deleteAll() {
         FileSystemUtils.deleteRecursively(rootLocation.toFile());
+    }
+
+    @Override
+    public File lastFileModified(String dir) {
+            File fl = new File(dir);
+            File choice = null;
+            if (fl.listFiles().length>0) {
+                File[] files = fl.listFiles(new FileFilter() {
+                    public boolean accept(File file) {
+                        return file.isFile();
+                    }
+                });
+                long lastMod = Long.MIN_VALUE;
+
+                for (File file : files) {
+                    if (file.lastModified() > lastMod) {
+                        choice = file;
+                        lastMod = file.lastModified();
+                    }
+                }
+            }
+            return choice;
+    }
+
+    @Override
+    public void deleteOldFiles(String dir) {
+            File fl = new File(dir);
+            if (fl.listFiles().length>0) {
+                File[] files = fl.listFiles(new FileFilter() {
+                    public boolean accept(File file) {
+                        return file.isFile();
+                    }
+                });
+
+                for (File file : files) {
+                    file.delete();
+                }
+            }
+
+    }
+
+    @Override
+    public String getCurrentDir() {
+        Path currentPath = Paths.get("");
+        String projectPath = currentPath.toAbsolutePath().toString();
+        String dir = projectPath.substring(0, 3) + "upload-dir";
+
+        return dir;
     }
 }
