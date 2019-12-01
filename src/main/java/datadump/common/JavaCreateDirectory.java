@@ -13,7 +13,12 @@ public class JavaCreateDirectory {
         Path path = Paths.get(fileName);
 
         if (!Files.exists(path)) {
-            Files.createDirectory(path);
+            try{
+                Files.createDirectory(path);
+            } catch (Exception e){
+                e.printStackTrace();
+                System.out.println(e.getMessage());
+            }
         }
 
         return fileName;

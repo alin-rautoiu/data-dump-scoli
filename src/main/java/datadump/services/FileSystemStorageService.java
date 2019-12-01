@@ -3,6 +3,7 @@ package datadump.services;
 import datadump.common.StorageException;
 import datadump.common.StorageFileNotFoundException;
 import datadump.common.StorageProperties;
+import datadump.web.MainController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -21,11 +22,14 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Stream;
 
 @Service
 public class FileSystemStorageService implements StorageService {
     private final Path rootLocation;
+    private static final Logger logger = Logger.getLogger(MainController.class.getName());
 
     @Autowired
     public FileSystemStorageService(StorageProperties properties){
@@ -36,7 +40,10 @@ public class FileSystemStorageService implements StorageService {
     public void init() {
         try{
             Files.createDirectories(rootLocation);
+            logger.log(Level.ALL, rootLocation.toString());
         } catch (IOException e) {
+            logger.log(Level.ALL, e.getMessage());
+            e.printStackTrace();
             throw new StorageException("Could not initialize storage", e);
         }
     }
@@ -84,6 +91,7 @@ public class FileSystemStorageService implements StorageService {
                 throw new StorageFileNotFoundException("Could not read file: " + fileName);
             }
         }catch (MalformedURLException e){
+            e.printStackTrace();
             throw new StorageFileNotFoundException("Could not read file" + fileName);
         }
     }

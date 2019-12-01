@@ -75,9 +75,6 @@ public class DatadumpApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws  Exception{
 
-		System.out.println(repository.findTestCollectionByData("b"));
-//		System.out.println(repository.findById("5dd0652fdc9af440fdb3bc2c"));
-//		System.out.println(repository.findAll(Example.of(new TestCollection("a"), ExampleMatcher.matching().withMatcher("data", startsWith().ignoreCase()))).get(0).toString());
 		if (!mongoTemplate.collectionExists(TestCollection.class)) {
 			mongoTemplate.createCollection(TestCollection.class);
 		}
@@ -89,25 +86,5 @@ public class DatadumpApplication implements CommandLineRunner {
 		} else {
 			collection = mongoTemplate.getCollection("Judet");
 		}
-
-//		List judete = readCSV();
-//		for (Object item: judete) {
-//			Document judet = new Document((Map<String, Object>) item);
-//			Document query = new Document("judet", judet.getString("judet"));
-//			//BSONObject q = new BasicBSONObject();
-//			//q.put("judet", ((Map<String, Object>) item).get("judet"));
-//
-//			/*List results = new ArrayList<>();
-//			collection.find(query).into(results);*/
-//			Document oldValue =  (Document) collection.find(query).first();
-//			if(oldValue != null){
-//				collection.replaceOne(oldValue ,judet);
-//			}else{
-//				collection.insertOne(judet);
-//			}
-//		}
-
-//		System.out.println(mongoTemplate.findAll(TestCollection.class));
 	}
-
 }
