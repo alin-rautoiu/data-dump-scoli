@@ -35,7 +35,7 @@ public class JudetController {
     @Autowired
     private StorageService storageService;
 
-    @RequestMapping(value = "/Judete", method = RequestMethod.GET)
+    @RequestMapping(value = "/judete", method = RequestMethod.GET)
     public String Index(Model model){
         MongoCollection collection = null;
         collection = mongoTemplate.getCollection("Judet");
@@ -50,10 +50,9 @@ public class JudetController {
         return "displayJudete";
     }
 
-    @RequestMapping(value = "/Judete/Show", method = RequestMethod.GET)
+    @RequestMapping(value = "/judete/how", method = RequestMethod.GET)
     public String Show(Model model) throws IOException {
         List<Map<String, Object>> values = new LinkedList<>();
-
 
         //File lastFilePath = storageService.lastFileModified("D:\\upload-dir");
         File lastFilePath = storageService.lastFileModified(storageService.getCurrentDir());
@@ -68,7 +67,7 @@ public class JudetController {
         return "displayNewData";
     }
 
-    @PostMapping("/Judete/Show")
+    @PostMapping("/judete/show")
     public String saveNewData(RedirectAttributes redirectAttributes) throws IOException {
         List<Map<String, Object>> newValues = new LinkedList<>();
         File lastFilePath = storageService.lastFileModified(storageService.getCurrentDir());

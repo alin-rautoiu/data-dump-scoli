@@ -52,13 +52,12 @@ public class FileUploadController {
             storageService.deleteOldFiles(storageService.getCurrentDir());
             storageService.store(file);
             redirectAttributes.addFlashAttribute("message", "Ai incarcat cu succes " + file.getOriginalFilename() + " !");
-            return "redirect:/Judete/Show";
+            return "redirect:/judete/show";
         }
         else {
            redirectAttributes.addFlashAttribute("message", "Nu ati atasat niciun fisier!");
            return "redirect:/uploads";
         }
-
     }
 
     @ExceptionHandler(StorageFileNotFoundException.class)
