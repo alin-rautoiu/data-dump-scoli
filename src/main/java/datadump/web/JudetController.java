@@ -87,6 +87,6 @@ public class JudetController {
         redirectAttributes.addFlashAttribute("valuesList", values);
         redirectAttributes.addFlashAttribute("message", "Datele au fost salvate cu succes!");
 
-       return "redirect:/Judete";
+       return "redirect:/judete";
     }
 }
