@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface JudetService {
+      //@TODO Aici nu ar trebui sa ii pasezi colectia, se presupune ca vrei judetul
       List<Map<String, Object>> getAll(MongoCollection collection);
       List readCSV(String fileName) throws FileNotFoundException, IOException;
       void saveChanges(List judete);

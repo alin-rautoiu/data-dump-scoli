@@ -1,8 +1,11 @@
 package datadump.web;
 
+import com.fasterxml.jackson.databind.util.JSONPObject;
+import com.google.gson.Gson;
 import com.mongodb.client.MongoCollection;
 import datadump.accessingdatamongodb.JudetRepository;
 import datadump.accessingdatamongodb.TestCollectionRepository;
+import datadump.services.JudetService;
 import org.apache.juli.logging.Log;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +14,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -21,15 +26,19 @@ public class MainController {
     @Autowired
     private MongoTemplate mongoTemplate;
 
+    @Autowired
+    private JudetService judetService;
+
     @GetMapping("/")
     public String Index(Model model){
 
         try{
             MongoCollection judet = mongoTemplate.getCollection("Judet");
-            Long count2 = judet.countDocuments();
+            List<Map<String, Object>> judete = judetService.getAll(judet);
+            Gson gson = new Gson();
+            String judeteAsJSON = gson.toJson(judete);
 
-            //Adauga in modelul MVC atributul "count" cu valoare count
-            model.addAttribute("count2", count2.toString());
+            model.addAttribute("judete", judeteAsJSON);
         }
         catch (Exception e){
             logger.log(Level.ALL, e.getMessage());
