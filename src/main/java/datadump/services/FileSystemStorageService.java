@@ -143,10 +143,10 @@ public class FileSystemStorageService implements StorageService {
 
     @Override
     public String getCurrentDir() {
-        Path currentPath = Paths.get("");
-        String projectPath = currentPath.toAbsolutePath().toString();
-        String dir = "/tmp";
+        //Path currentPath = Paths.get("");
+        //String projectPath = currentPath.toAbsolutePath().toString();
         //String dir = projectPath;
+        String dir = "/tmp";
 
         return dir;
     }
