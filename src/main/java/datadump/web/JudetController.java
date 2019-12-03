@@ -50,7 +50,7 @@ public class JudetController {
         return "displayJudete";
     }
 
-    @RequestMapping(value = "/judete/how", method = RequestMethod.GET)
+    @RequestMapping(value = "/judete/show", method = RequestMethod.GET)
     public String Show(Model model) throws IOException {
         List<Map<String, Object>> values = new LinkedList<>();
 
