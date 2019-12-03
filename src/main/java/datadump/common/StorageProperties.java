@@ -6,7 +6,7 @@ import java.io.IOException;
 
 @ConfigurationProperties("services")
 public class StorageProperties {
-    private String location = JavaCreateDirectory.createDirectory("");
+    private String location = JavaCreateDirectory.createDirectory("tmp");
 
     public StorageProperties() throws IOException {
     }

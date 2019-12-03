@@ -29,9 +29,12 @@ public class FileUploadController {
     public String listUploadedFiles(Model model) throws IOException {
 
         try {
-            model.addAttribute("files", storageService.loadAll().map(path ->
-                    MvcUriComponentsBuilder.fromMethodName(FileUploadController.class,
-                            "serveFile", path.getFileName().toString()).build().toString())
+            model.addAttribute("files", storageService
+                    .loadAll()
+                    .map(path ->
+                        MvcUriComponentsBuilder.fromMethodName(FileUploadController.class,
+                            "serveFile",
+                                path.getFileName().toString()).build().toString())
                     .collect(Collectors.toList()));
         } catch (Exception e) {
             e.printStackTrace();
