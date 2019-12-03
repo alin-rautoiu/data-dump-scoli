@@ -53,6 +53,7 @@ public class FileUploadController {
     public String handleFileUpload(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes){
         if(!file.isEmpty()){
             storageService.deleteOldFiles(storageService.getCurrentDir());
+            System.out.println(storageService.getCurrentDir());
             storageService.store(file);
             redirectAttributes.addFlashAttribute("message", "Ai incarcat cu succes " + file.getOriginalFilename() + " !");
             return "redirect:/judete/show";

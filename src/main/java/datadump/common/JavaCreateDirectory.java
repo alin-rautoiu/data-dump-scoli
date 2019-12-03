@@ -20,6 +20,7 @@ public class JavaCreateDirectory {
                 System.out.println(e.getMessage());
             }
         }
+        System.out.println(fileName);
 
         return fileName;
     }
