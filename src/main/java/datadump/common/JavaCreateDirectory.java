@@ -8,7 +8,7 @@ import java.nio.file.Paths;
 public class JavaCreateDirectory {
     public static String createDirectory(String dirName) throws IOException {
 
-        String fileName = "/tmp/" + dirName;
+        String fileName = "/" + dirName;
 
         Path path = Paths.get(fileName);
 
