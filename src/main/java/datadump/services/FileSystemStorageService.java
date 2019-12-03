@@ -146,7 +146,7 @@ public class FileSystemStorageService implements StorageService {
         Path currentPath = Paths.get("");
         String projectPath = currentPath.toAbsolutePath().toString();
         String dir = "/tmp";
-        System.out.println(dir);
+        System.out.println(projectPath);
         //String dir = projectPath.substring(0, 4);
 
         return dir;
