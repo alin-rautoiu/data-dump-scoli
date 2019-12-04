@@ -21,7 +21,10 @@ public class JudetServiceImplementation implements JudetService {
     private MongoTemplate mongoTemplate;
 
     @Override
-    public List<Map<String, Object>> getAll(MongoCollection collection) {
+    public List<Map<String, Object>> getAll() {
+        MongoCollection collection = null;
+        collection = mongoTemplate.getCollection("Judet");
+
         List<Map<String, Object>> values = new LinkedList<>();
 
         MongoCursor cursor = collection.find().projection(Projections.excludeId()).cursor();

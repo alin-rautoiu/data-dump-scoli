@@ -37,12 +37,9 @@ public class JudetController {
 
     @RequestMapping(value = "/judete", method = RequestMethod.GET)
     public String Index(Model model){
-        MongoCollection collection = null;
-        collection = mongoTemplate.getCollection("Judet");
-
         List<Map<String, Object>> values = new LinkedList<>();
 
-        values = judetService.getAll(collection);
+        values = judetService.getAll();
 
         model.addAttribute("headerList", values.get(0).keySet().toArray());
         model.addAttribute("valuesList", values);
@@ -54,9 +51,7 @@ public class JudetController {
     public String Show(Model model) throws IOException {
         List<Map<String, Object>> values = new LinkedList<>();
 
-        //File lastFilePath = storageService.lastFileModified("D:\\upload-dir");
         File lastFilePath = storageService.lastFileModified(storageService.getCurrentDir());
-        System.out.println(lastFilePath);
         if ( lastFilePath != null){
             values = judetService.readCSV(lastFilePath.getAbsolutePath().toString());
         }
@@ -76,12 +71,9 @@ public class JudetController {
         }
        judetService.saveChanges(newValues);
 
-        MongoCollection collection = null;
-        collection = mongoTemplate.getCollection("Judet");
-
         List<Map<String, Object>> values = new LinkedList<>();
 
-        values = judetService.getAll(collection);
+        values = judetService.getAll();
 
         redirectAttributes.addFlashAttribute("headerList", values.get(0).keySet().toArray());
         redirectAttributes.addFlashAttribute("valuesList", values);

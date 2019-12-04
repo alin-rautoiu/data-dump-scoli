@@ -33,8 +33,7 @@ public class MainController {
     public String Index(Model model){
 
         try{
-            MongoCollection judet = mongoTemplate.getCollection("Judet");
-            List<Map<String, Object>> judete = judetService.getAll(judet);
+            List<Map<String, Object>> judete = judetService.getAll();
             Gson gson = new Gson();
             String judeteAsJSON = gson.toJson(judete);
 

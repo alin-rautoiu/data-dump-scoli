@@ -104,7 +104,6 @@ public class FileSystemStorageService implements StorageService {
     @Override
     public File lastFileModified(String dir) {
             File fl = new File(dir);
-            System.out.println(dir);
             File choice = null;
             if (fl.listFiles().length>0) {
                 File[] files = fl.listFiles(new FileFilter() {
