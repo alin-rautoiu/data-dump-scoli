@@ -57,7 +57,7 @@ public class JudetServiceImplementation implements JudetService {
                 HashMap<String, Object> judet = new HashMap<>();
                 String[] values = line.split(",");
                 for(int i=0; i<nrFields; i++){
-                    judet.put(headerFields[i], values[i]);
+                    judet.put(headerFields[i].toLowerCase(), values[i]);
                 }
                 judete.add(judet);
             }
@@ -85,5 +85,6 @@ public class JudetServiceImplementation implements JudetService {
 				collection.insertOne(judet);
 			}
 		}
+
     }
 }
