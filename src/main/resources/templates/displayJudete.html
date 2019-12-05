@@ -37,8 +37,8 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <link rel="stylesheet" href="../static/slickGrid/slick.grid.css" type="text/css"/>
-    <link rel="stylesheet" href="../static/slickGrid/css/smoothness/jquery-ui.css" type="text/css"/>
+    <link rel="stylesheet" th:href="@{../static/slickGrid/slick.grid.css}" type="text/css"/>
+    <link rel="stylesheet" th:href="@{../static/slickGrid/css/smoothness/jquery-ui.css}" type="text/css"/>
     <title>Title</title>
 </head>
 <body>
@@ -68,11 +68,11 @@
     <a href="/uploads">Modifica datele</a>
 </div>
 
-<script src="lib/jquery-1.11.2.min.js"></script>
-<script src="lib/jquery.event.drag-2.3.0.js"></script>
+<script th:href="@{../static/slickGrid/lib/jquery-1.11.2.min.js}"></script>
+<script th:href="@{../static/slickGrid/lib/jquery.event.drag-2.3.0.js}"></script>
 
-<script src="../static/slickGrid/slick.core.js"></script>
-<script src="../static/slickGrid/slick.grid.js"></script>
+<script th:href="@{../static/slickGrid/slick.core.js}"></script>
+<script th:href="@{../static/slickGrid/slick.grid.js}"></script>
 
 <script th:inline="javascript">
     var grid;
@@ -99,16 +99,7 @@
             data.push(myMap);
         });
 
-        // for (var i = 0; i < 500; i++) {
-        //     data[i] = {
-        //         title: "Task " + i,
-        //         duration: "5 days",
-        //         percentComplete: Math.round(Math.random() * 100),
-        //         start: "01/01/2009",
-        //         finish: "01/05/2009",
-        //         effortDriven: (i % 5 == 0)
-        //     };
-        // }
+
         grid = new Slick.Grid("#myGrid", data, columns, options);
     })
 </script>
