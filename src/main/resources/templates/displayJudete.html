@@ -1,3 +1,35 @@
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org"-->
+<!--      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"-->
+<!--      xsi:schemaLocation="http://www.thymeleaf.org ">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>-->
+<!--    <title>Title</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--    <div th:if="${message}">-->
+<!--      <h2 th:text="${message}"/>-->
+<!--    </div>-->
+<!--    <table id="judetGrid" style="width:600px;height:500px;">-->
+<!--        <thead>-->
+<!--             <tr>-->
+<!--                <th th:each="headerItem : ${headerList}">-->
+<!--                     <span th:text="${headerItem}"></span>-->
+<!--                 </th>-->
+<!--             </tr>-->
+<!--         </thead>-->
+<!--        <tbody>-->
+<!--            <tr th:each="map : ${valuesList}">-->
+<!--               <td th:each="mapEntry : ${map}"><span th:text="${mapEntry.value}"></span></td>-->
+<!--            </tr>-->
+<!--        </tbody>-->
+<!--    </table>-->
+<!--    <div>-->
+<!--        <a href="/uploads">Modifica datele</a>-->
+<!--    </div>-->
+<!--</body>-->
+<!--</html>-->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -5,28 +37,81 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="../static/slickGrid/slick.grid.css" type="text/css"/>
+    <link rel="stylesheet" href="../static/slickGrid/css/smoothness/jquery-ui.css" type="text/css"/>
     <title>Title</title>
 </head>
 <body>
-    <div th:if="${message}">
-      <h2 th:text="${message}"/>
-    </div>
-    <table>
-        <thead>
-             <tr>
-                <th th:each="headerItem : ${headerList}">
-                     <span th:text="${headerItem}"></span>
-                 </th>
-             </tr>
-         </thead>
-        <tbody>
-            <tr th:each="map : ${valuesList}">
-               <td th:each="mapEntry : ${map}"><span th:text="${mapEntry.value}"></span></td>
-            </tr>
-        </tbody>
-    </table>
-    <div>
-        <a href="/uploads">Modifica datele</a>
-    </div>
+<div th:if="${message}">
+    <h2 th:text="${message}"/>
+</div>
+<table width="100%">
+    <tr>
+        <td valign="top" width="50%">
+            <div id="myGrid" style="width:600px;height:500px;"></div>
+        </td>
+        <td valign="top">
+            <h2>Demonstrates:</h2>
+            <ul>
+                <li>basic grid with minimal configuration</li>
+            </ul>
+            <h2>View Source:</h2>
+            <ul>
+                <li><A href="https://github.com/6pac/SlickGrid/blob/master/examples/example1-simple.html" target="_sourcewindow"> View the source for this example on Github</a></li>
+            </ul>
+        </td>
+    </tr>
+
+</table>
+
+<div>
+    <a href="/uploads">Modifica datele</a>
+</div>
+
+<script src="lib/jquery-1.11.2.min.js"></script>
+<script src="lib/jquery.event.drag-2.3.0.js"></script>
+
+<script src="../static/slickGrid/slick.core.js"></script>
+<script src="../static/slickGrid/slick.grid.js"></script>
+
+<script th:inline="javascript">
+    var grid;
+    var headerItems = [[${headerList}]];
+    var columns = headerItems.map(function(element){
+                     return {id: element, name: element, field:element}; });
+
+    var options = {
+        enableCellNavigation: true,
+        enableColumnReorder: false
+    };
+
+    $(function () {
+        var data = [];
+        var values = [[${valuesList}]];
+
+        values.forEach(function(element){
+            var i = 0;
+            var myMap = new Map();
+            headerItems.forEach(function(headerElem){
+                myMap.set(haderElem, element[i]);
+                i++;
+            });
+            data.push(myMap);
+        });
+
+        // for (var i = 0; i < 500; i++) {
+        //     data[i] = {
+        //         title: "Task " + i,
+        //         duration: "5 days",
+        //         percentComplete: Math.round(Math.random() * 100),
+        //         start: "01/01/2009",
+        //         finish: "01/05/2009",
+        //         effortDriven: (i % 5 == 0)
+        //     };
+        // }
+        grid = new Slick.Grid("#myGrid", data, columns, options);
+    })
+</script>
+
 </body>
 </html>
