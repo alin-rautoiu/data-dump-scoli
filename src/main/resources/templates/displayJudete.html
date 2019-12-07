@@ -36,9 +36,17 @@
       xsi:schemaLocation="http://www.thymeleaf.org ">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <link rel="stylesheet" th:href="@{../static/slickGrid/slick.grid.css}" type="text/css"/>
-    <link rel="stylesheet" th:href="@{../static/slickGrid/css/smoothness/jquery-ui.css}" type="text/css"/>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+
+    <link rel="stylesheet" th:href="@{../slickGrid/slick.grid.css}" type="text/css"/>
+    <link rel="stylesheet" th:href="@{../slickGrid/css/smoothness/jquery-ui.css}" type="text/css"/>
+
+    <script th:src="@{./slickGrid/lib/jquery-1.11.2.min.js}"></script>
+    <script th:src="@{./slickGrid/lib/jquery.event.drag-2.3.0.js}"></script>
+
+    <script src="./slickGrid/slick.core.js"></script>
+    <script src="./slickGrid/slick.grid.js"></script>
+
     <title>Title</title>
 </head>
 <body>
@@ -57,7 +65,8 @@
             </ul>
             <h2>View Source:</h2>
             <ul>
-                <li><A href="https://github.com/6pac/SlickGrid/blob/master/examples/example1-simple.html" target="_sourcewindow"> View the source for this example on Github</a></li>
+                <li><A href="https://github.com/6pac/SlickGrid/blob/master/examples/example1-simple.html"
+                       target="_sourcewindow"> View the source for this example on Github</a></li>
             </ul>
         </td>
     </tr>
@@ -68,40 +77,25 @@
     <a href="/uploads">Modifica datele</a>
 </div>
 
-<script th:href="@{../static/slickGrid/lib/jquery-1.11.2.min.js}"></script>
-<script th:href="@{../static/slickGrid/lib/jquery.event.drag-2.3.0.js}"></script>
-
-<script th:href="@{../static/slickGrid/slick.core.js}"></script>
-<script th:href="@{../static/slickGrid/slick.grid.js}"></script>
-
 <script th:inline="javascript">
     var grid;
     var headerItems = [[${headerList}]];
+
     var columns = headerItems.map(function(element){
-                     return {id: element, name: element, field:element}; });
+                        return {id: element, name: element, field:element};
+                    });
 
     var options = {
         enableCellNavigation: true,
         enableColumnReorder: false
     };
 
-    $(function () {
-        var data = [];
+    $(function() {
         var values = [[${valuesList}]];
 
-        values.forEach(function(element){
-            var i = 0;
-            var myMap = new Map();
-            headerItems.forEach(function(headerElem){
-                myMap.set(haderElem, element[i]);
-                i++;
-            });
-            data.push(myMap);
-        });
+        grid = new Slick.Grid("#myGrid", values, columns, options);
+    });
 
-
-        grid = new Slick.Grid("#myGrid", data, columns, options);
-    })
 </script>
 
 </body>
