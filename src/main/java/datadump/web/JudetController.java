@@ -36,6 +36,7 @@ public class JudetController {
 
         model.addAttribute("headerList", values.get(0).keySet().toArray());
         model.addAttribute("valuesList", values);
+        model.addAttribute("editable", true);
 
         return "displayJudete";
     }
@@ -44,7 +45,6 @@ public class JudetController {
     public String Index(@RequestBody String  data, RedirectAttributes redirectAttributes){
         Gson gson = new Gson();
         Map<String, Object> item = gson.fromJson(data, Map.class);
-        System.out.println(item);
 
         Document judet = new Document(item);
         Document query = new Document("judet", judet.getString("judet"));
@@ -69,6 +69,7 @@ public class JudetController {
 
         model.addAttribute("headerList", values.get(0).keySet().toArray());
         model.addAttribute("valuesList", values);
+        model.addAttribute("editable", false);
 
         return "displayNewData";
     }
