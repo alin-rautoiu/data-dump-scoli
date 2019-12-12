@@ -1,35 +1,3 @@
-<!--<!DOCTYPE html>-->
-<!--<html xmlns:th="http://www.thymeleaf.org"-->
-<!--      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"-->
-<!--      xsi:schemaLocation="http://www.thymeleaf.org ">-->
-<!--<head>-->
-<!--    <meta charset="UTF-8">-->
-<!--    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>-->
-<!--    <title>Title</title>-->
-<!--</head>-->
-<!--<body>-->
-<!--    <div th:if="${message}">-->
-<!--      <h2 th:text="${message}"/>-->
-<!--    </div>-->
-<!--    <table id="judetGrid" style="width:600px;height:500px;">-->
-<!--        <thead>-->
-<!--             <tr>-->
-<!--                <th th:each="headerItem : ${headerList}">-->
-<!--                     <span th:text="${headerItem}"></span>-->
-<!--                 </th>-->
-<!--             </tr>-->
-<!--         </thead>-->
-<!--        <tbody>-->
-<!--            <tr th:each="map : ${valuesList}">-->
-<!--               <td th:each="mapEntry : ${map}"><span th:text="${mapEntry.value}"></span></td>-->
-<!--            </tr>-->
-<!--        </tbody>-->
-<!--    </table>-->
-<!--    <div>-->
-<!--        <a href="/uploads">Modifica datele</a>-->
-<!--    </div>-->
-<!--</body>-->
-<!--</html>-->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -38,17 +6,49 @@
     <meta charset="UTF-8">
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
 
-    <link rel="stylesheet" th:href="@{../slickGrid/slick.grid.css}" type="text/css"/>
-    <link rel="stylesheet" th:href="@{../slickGrid/css/smoothness/jquery-ui.css}" type="text/css"/>
+    <link rel="stylesheet" th:href="@{./slickGrid/slick.grid.css}" type="text/css"/>
+    <link rel="stylesheet" th:href="@{./slickGrid/css/smoothness/jquery-ui-1.11.3.custom.css}" type="text/css"/>
+
+    <script th:src="@{./slickGrid/lib/firebugx.js}"></script>
 
     <script th:src="@{./slickGrid/lib/jquery-1.11.2.min.js}"></script>
-    <script th:src="@{./slickGrid/lib/jquery.event.drag-2.3.0.js}"></script>
+    <script th:src="@{./slickGrid/lib/jquery-ui-1.11.3.min.js}"></script>
+    <script th:src="@{./slickGrid/lib/jquery.event.drag-2.2.js}"></script>
 
-    <script src="./slickGrid/slick.core.js"></script>
-    <script src="./slickGrid/slick.grid.js"></script>
+    <script th:src="@{./slickGrid/slick.core.js}"></script>
+    <script th:src="@{./slickGrid/slick.grid.js}"></script>
+    <script th:src="@{./slickGrid/plugins/slick.cellrangedecorator.js}"></script>
+    <script th:src="@{./slickGrid/plugins/slick.cellrangeselector.js}"></script>
+    <script th:src="@{./slickGrid/plugins/slick.cellselectionmodel.js}"></script>
+    <script th:src="@{./slickGrid/slick.formatters.js}"></script>
+    <script th:src="@{./slickGrid/slick.editors.js}"></script>
 
+    <style>
+        .cell-title {
+            font-weight: bold;
+        }
+        #contextMenu {
+            background: #e1efc7;
+            border: 1px solid gray;
+            padding: 2px;
+            display: inline-block;
+            min-width: 100px;
+            -moz-box-shadow: 2px 2px 2px silver;
+            -webkit-box-shadow: 2px 2px 2px silver;
+            z-index: 99999;
+        }
+        #contextMenu li {
+            padding: 4px 4px 4px 14px;
+            list-style: none;
+            cursor: pointer;
+        }
+        #contextMenu li:hover {
+            background-color: white;
+        }
+    </style>
     <title>Title</title>
 </head>
+
 <body>
 <div th:if="${message}">
     <h2 th:text="${message}"/>
@@ -58,19 +58,7 @@
         <td valign="top" width="50%">
             <div id="myGrid" style="width:600px;height:500px;"></div>
         </td>
-        <td valign="top">
-            <h2>Demonstrates:</h2>
-            <ul>
-                <li>basic grid with minimal configuration</li>
-            </ul>
-            <h2>View Source:</h2>
-            <ul>
-                <li><A href="https://github.com/6pac/SlickGrid/blob/master/examples/example1-simple.html"
-                       target="_sourcewindow"> View the source for this example on Github</a></li>
-            </ul>
-        </td>
     </tr>
-
 </table>
 
 <div>
@@ -78,22 +66,88 @@
 </div>
 
 <script th:inline="javascript">
+    function requiredFieldValidator(value) {
+        if (value == null || value == undefined || !value.length) {
+            return {valid: false, msg: "This is a required field"};
+        } else {
+            return {valid: true, msg: null};
+        }
+    }
+
     var grid;
     var headerItems = [[${headerList}]];
 
     var columns = headerItems.map(function(element){
-                        return {id: element, name: element, field:element};
-                    });
+        if( element !== "judet")
+            return {id: element, name: element, field:element, validator:requiredFieldValidator,
+                    editor:Slick.Editors.Text};
+        else
+            return {id: element, name: element, field:element, validator:requiredFieldValidator};
+    });
 
     var options = {
+        editable: true,
+        enableAddRow: false,
         enableCellNavigation: true,
-        enableColumnReorder: false
+        asyncEditorLoading: false,
+        rowHeight: 30
     };
 
     $(function() {
         var values = [[${valuesList}]];
 
         grid = new Slick.Grid("#myGrid", values, columns, options);
+
+        grid.onContextMenu.subscribe(function (e) {
+            e.preventDefault();
+            var cell = grid.getCellFromEvent(e);
+            $("#contextMenu")
+                .data("row", cell.row)
+                .css("top", e.pageY)
+                .css("left", e.pageX)
+                .show();
+            $("body").one("click", function () {
+                $("#contextMenu").hide();
+            });
+        });
+
+        grid.onCellChange.subscribe(function(e, args) {
+            var obj = new Object();
+
+            $.ajax({
+                type: "POST",
+                url: "judete",
+                data: JSON.stringify(args.item),
+                contentType: 'application/json',
+                dataType: "json",
+                success: function(a) {
+                    if(a.status != "ok") {
+                        console.log(data);
+                    } else {
+                        alert(a.msg);
+                    }
+                    return false;
+                }
+            });
+        });
+
+    });
+
+    $("#contextMenu").click(function (e) {
+        if (!$(e.target).is("li")) {
+            return;
+        }
+        if (!grid.getEditorLock().commitCurrentEdit()) {
+            return;
+        }
+        var row = $(this).data("row");
+        data[row].priority = $(e.target).attr("data");
+        grid.updateRow(row);
+
+        grid.onClick.subscribe(function (e, args) {
+            var cell = grid.getCellFromEvent(e);
+        });
+
     });
 
 </script>

@@ -1,27 +1,20 @@
 package datadump.web;
 
+import com.google.gson.Gson;
 import com.mongodb.client.MongoCollection;
-import datadump.services.FileSystemStorageService;
-import datadump.services.JudetServiceImplementation;
 import datadump.services.StorageService;
+
+import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import datadump.services.JudetService;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
 
 @Controller
@@ -45,6 +38,24 @@ public class JudetController {
         model.addAttribute("valuesList", values);
 
         return "displayJudete";
+    }
+
+    @PostMapping("/judete")
+    public String Index(@RequestBody String  data, RedirectAttributes redirectAttributes){
+        Gson gson = new Gson();
+        Map<String, Object> item = gson.fromJson(data, Map.class);
+        System.out.println(item);
+
+        Document judet = new Document(item);
+        Document query = new Document("judet", judet.getString("judet"));
+        MongoCollection collection = mongoTemplate.getCollection("Judet");
+
+        Document oldValue =  (Document) collection.find(query).first();
+        collection.replaceOne(oldValue ,judet);
+
+        redirectAttributes.addFlashAttribute("message", "Modificare efectuata cu succes!");
+
+        return "redirect:/judete";
     }
 
     @RequestMapping(value = "/judete/show", method = RequestMethod.GET)
