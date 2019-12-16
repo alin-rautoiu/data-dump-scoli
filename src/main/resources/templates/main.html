@@ -7,28 +7,16 @@
     <meta charset="UTF-8">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script
+            src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous"></script>
     <title>Hello</title>
 </head>
 <body>
     <svg width="960" height="500"></svg>
 
-    <script th:inline="javascript">
-       const judete = [(${judete})];
-       const columns = Object.keys(judete[0]);
-       console.log(columns);
-       const svg = d3.select('svg');
-       const g = svg.append('g');
-       const rect = g.selectAll('rect')
-        .data(judete)
-        .enter()
-        .append('rect')
-            .attr('y', 0)
-            .attr('height', (d) => {
-                const column = columns[0];
-                return d[column];
-                })
-            .attr('width', 20)
-            .attr('x', (d, i) => i * 20 + 5)
-    </script>
+    <script type="text/javascript" th:src="@{/js/main.js}" ></script>
+
 </body>
 </html>

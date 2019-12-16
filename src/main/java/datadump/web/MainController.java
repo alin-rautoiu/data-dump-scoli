@@ -13,6 +13,8 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Map;
@@ -30,14 +32,14 @@ public class MainController {
     private JudetService judetService;
 
     @GetMapping("/")
-    public String Index(Model model){
+    public String index(Model model){
 
         try{
             List<Map<String, Object>> judete = judetService.getAll();
             Gson gson = new Gson();
             String judeteAsJSON = gson.toJson(judete);
 
-            model.addAttribute("judete", judeteAsJSON);
+            //model.addAttribute("judete", judeteAsJSON);
         }
         catch (Exception e){
             logger.log(Level.ALL, e.getMessage());
@@ -46,5 +48,23 @@ public class MainController {
 
         //Specifica lui thymeleaf ce template sa foloseasca
         return "main";
+    }
+    @GetMapping("/getJudete")
+    @ResponseBody
+    public String getJudete() {
+        try{
+            List<Map<String, Object>> judete = judetService.getAll();
+            Gson gson = new Gson();
+            String judeteAsJSON = gson.toJson(judete);
+
+            return judeteAsJSON;
+        }
+
+        catch (Exception e){
+            logger.log(Level.ALL, e.getMessage());
+            e.printStackTrace();
+        }
+
+        return "";
     }
 }
