@@ -4,36 +4,62 @@
       xsi:schemaLocation="http://www.thymeleaf.org ">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+
+    <link rel="stylesheet" type="text/css"  th:href="@{/slickGrid/slick.grid.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/slickGrid/css/smoothness/jquery-ui-1.11.3.custom.css}" />
+
+    <script type="text/javascript" th:src="@{/slickGrid/lib/firebugx.js}"></script>
+
+    <script type="text/javascript" th:src="@{/slickGrid/lib/jquery-1.11.2.min.js}"></script>
+    <script type="text/javascript" th:src="@{/slickGrid/lib/jquery-ui-1.11.3.min.js}"></script>
+    <script type="text/javascript" th:src="@{/slickGrid/lib/jquery.event.drag-2.2.js}"></script>
+
+    <script type="text/javascript" th:src="@{/slickGrid/slick.core.js}"></script>
+    <script type="text/javascript" th:src="@{/slickGrid/slick.grid.js}"></script>
+    <script type="text/javascript" th:src="@{/slickGrid/plugins/slick.cellrangedecorator.js}"></script>
+    <script type="text/javascript" th:src="@{/slickGrid/plugins/slick.cellrangeselector.js}"></script>
+    <script type="text/javascript" th:src="@{/slickGrid/plugins/slick.cellselectionmodel.js}"></script>
+    <script type="text/javascript" th:src="@{/slickGrid/slick.formatters.js}"></script>
+    <script type="text/javascript" th:src="@{/slickGrid/slick.editors.js}"></script>
+    <style>
+        .cell-title {
+            font-weight: bold;
+        }
+        #contextMenu {
+            background: #e1efc7;
+            border: 1px solid gray;
+            padding: 2px;
+            display: inline-block;
+            min-width: 100px;
+            -moz-box-shadow: 2px 2px 2px silver;
+            -webkit-box-shadow: 2px 2px 2px silver;
+            z-index: 99999;
+        }
+        #contextMenu li {
+            padding: 4px 4px 4px 14px;
+            list-style: none;
+            cursor: pointer;
+        }
+        #contextMenu li:hover {
+            background-color: white;
+        }
+    </style>
     <title>Title</title>
 </head>
+
 <body>
-<div th:if="${message}">
-    <h2 th:text="${message}"/>
-</div>
-<table>
-    <thead>
-    <tr>
-        <th th:each="headerItem : ${headerList}">
-            <span th:text="${headerItem}"></span>
-        </th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="map : ${valuesList}">
-        <td th:each="mapEntry : ${map}"><span th:text="${mapEntry.value}"></span></td>
-    </tr>
-    </tbody>
-</table>
-<div>
-    <form method="POST" enctype="multipart/form-data" action="/judete/show">
-        <table>
-            <tr>
-                <td><input value="Renunta" type="button" onclick="history.go(-1);" /></td>
-                <td><input type="submit" value="Salveaza Modificarile" /></td>
-            </tr>
-        </table>
-    </form>
-</div>
+    <div th:replace="fragmentJudete :: tabelJudete"></div>
+
+    <div>
+        <form method="POST" enctype="multipart/form-data" action="/judete/show">
+         <table>
+             <tr>
+                 <td><input value="Renunta" type="button" onclick="history.go(-1);" /></td>
+                 <td><input type="submit" value="Salveaza Modificarile" /></td>
+              </tr>
+         </table>
+     </form>
+    </div>
 </body>
 </html>

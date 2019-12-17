@@ -1,0 +1,105 @@
+<div th:fragment="tabelJudete">
+<div th:if="${message}">
+    <h2 th:text="${message}"/>
+</div>
+<table width="100%">
+    <tr>
+        <td valign="top" width="50%">
+            <div id="myGrid" style="width:600px;height:500px;"></div>
+        </td>
+    </tr>
+</table>
+
+<script th:inline="javascript">
+    function requiredFieldValidator(value) {
+        if (value == null || value == undefined || !value.length) {
+            return {valid: false, msg: "This is a required field"};
+        } else {
+            return {valid: true, msg: null};
+        }
+    }
+
+    var grid;
+    var headerItems = [[${headerList}]];
+    var columns;
+    if ([[${editable}]] === true){
+        columns = headerItems.map(function(element){
+            if( element !== "judet")
+                return {id: element, name: element, field:element, validator:requiredFieldValidator,
+                    editor:Slick.Editors.Text};
+            else
+                return {id: element, name: element, field:element, validator:requiredFieldValidator};
+        });
+    }
+    else{
+        columns = headerItems.map(function(element){
+           return {id: element, name: element, field:element, validator:requiredFieldValidator};
+        });
+    }
+
+    var options = {
+        editable: true,
+        enableAddRow: false,
+        enableCellNavigation: true,
+        asyncEditorLoading: false,
+        rowHeight: 30
+    };
+
+    $(function() {
+        var values = [[${valuesList}]];
+
+        grid = new Slick.Grid("#myGrid", values, columns, options);
+
+        grid.onContextMenu.subscribe(function (e) {
+            e.preventDefault();
+            var cell = grid.getCellFromEvent(e);
+            $("#contextMenu")
+                .data("row", cell.row)
+                .css("top", e.pageY)
+                .css("left", e.pageX)
+                .show();
+            $("body").one("click", function () {
+                $("#contextMenu").hide();
+            });
+        });
+
+        grid.onCellChange.subscribe(function(e, args) {
+            var obj = new Object();
+
+            $.ajax({
+                type: "POST",
+                url: "judete",
+                data: JSON.stringify(args.item),
+                contentType: 'application/json',
+                dataType: "json",
+                success: function(a) {
+                    if(a.status != "ok") {
+                        console.log(data);
+                    } else {
+                        alert(a.msg);
+                    }
+                    return false;
+                }
+            });
+        });
+
+    });
+
+    $("#contextMenu").click(function (e) {
+        if (!$(e.target).is("li")) {
+            return;
+        }
+        if (!grid.getEditorLock().commitCurrentEdit()) {
+            return;
+        }
+        var row = $(this).data("row");
+        data[row].priority = $(e.target).attr("data");
+        grid.updateRow(row);
+
+        grid.onClick.subscribe(function (e, args) {
+            var cell = grid.getCellFromEvent(e);
+        });
+
+    });
+    </script>
+</div>
