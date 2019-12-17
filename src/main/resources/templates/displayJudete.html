@@ -6,22 +6,22 @@
     <meta charset="UTF-8">
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
 
-    <link rel="stylesheet" th:href="@{./slickGrid/slick.grid.css}" type="text/css"/>
-    <link rel="stylesheet" th:href="@{./slickGrid/css/smoothness/jquery-ui-1.11.3.custom.css}" type="text/css"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/slickGrid/slick.grid.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/slickGrid/css/smoothness/jquery-ui-1.11.3.custom.css}" />
 
-    <script th:src="@{./slickGrid/lib/firebugx.js}"></script>
+    <script type="text/javascript" th:src="@{/slickGrid/lib/firebugx.js}"></script>
 
-    <script th:src="@{./slickGrid/lib/jquery-1.11.2.min.js}"></script>
-    <script th:src="@{./slickGrid/lib/jquery-ui-1.11.3.min.js}"></script>
-    <script th:src="@{./slickGrid/lib/jquery.event.drag-2.2.js}"></script>
+    <script type="text/javascript" th:src="@{/slickGrid/lib/jquery-1.11.2.min.js}"></script>
+    <script type="text/javascript" th:src="@{/slickGrid/lib/jquery-ui-1.11.3.min.js}"></script>
+    <script type="text/javascript" th:src="@{/slickGrid/lib/jquery.event.drag-2.2.js}"></script>
 
-    <script th:src="@{./slickGrid/slick.core.js}"></script>
-    <script th:src="@{./slickGrid/slick.grid.js}"></script>
-    <script th:src="@{./slickGrid/plugins/slick.cellrangedecorator.js}"></script>
-    <script th:src="@{./slickGrid/plugins/slick.cellrangeselector.js}"></script>
-    <script th:src="@{./slickGrid/plugins/slick.cellselectionmodel.js}"></script>
-    <script th:src="@{./slickGrid/slick.formatters.js}"></script>
-    <script th:src="@{./slickGrid/slick.editors.js}"></script>
+    <script type="text/javascript" th:src="@{/slickGrid/slick.core.js}"></script>
+    <script type="text/javascript" th:src="@{/slickGrid/slick.grid.js}"></script>
+    <script type="text/javascript" th:src="@{/slickGrid/plugins/slick.cellrangedecorator.js}"></script>
+    <script type="text/javascript" th:src="@{/slickGrid/plugins/slick.cellrangeselector.js}"></script>
+    <script type="text/javascript" th:src="@{/slickGrid/plugins/slick.cellselectionmodel.js}"></script>
+    <script type="text/javascript" th:src="@{/slickGrid/slick.formatters.js}"></script>
+    <script type="text/javascript" th:src="@{/slickGrid/slick.editors.js}"></script>
 
     <style>
         .cell-title {
@@ -51,16 +51,6 @@
 
 <body>
 <div th:replace="fragmentJudete :: tabelJudete"></div>
-<div th:if="${message}">
-    <h2 th:text="${message}"/>
-</div>
-<table width="100%">
-    <tr>
-        <td valign="top" width="50%">
-            <div id="myGrid" style="width:600px;height:500px;"></div>
-        </td>
-    </tr>
-</table>
 
 <div>
     <a href="/uploads">Modifica datele</a>
