@@ -11,12 +11,20 @@
             src="https://code.jquery.com/jquery-3.4.1.min.js"
             integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
             crossorigin="anonymous"></script>
-    <title>Hello</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <title>Vizualizare</title>
 </head>
 <body>
+
+    <div><a th:href="@{/judete}">Județe</a></div>
     <svg width="960" height="500"></svg>
-
     <script type="text/javascript" th:src="@{/js/main.js}" ></script>
-
+    <select id="select">
+        <option value="arondate">Arondate</option>
+        <option value="numar total unitati">Numar total de unitati</option>
+        <option value="publice">Publice</option>
+        <option value="private">Private</option>
+    </select>
+    <button id="refresh">Refresh</button>
 </body>
 </html>
